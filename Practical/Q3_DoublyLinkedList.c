@@ -45,7 +45,7 @@ void insertAtLocationDoubly(Node** head, int data, int position) {
     Node* current = *head;
     int currentPos = 0;
 
-    while (current != NULL && currentPos < position) {
+    while (current != NULL && currentPos < position - 1) {
         current = current->next;
         currentPos++;
     }

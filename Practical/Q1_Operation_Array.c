@@ -57,24 +57,6 @@ bool linearSearch(int arr[], int size, int target) {
     return false;  // Element not found
 }
 
-// Function to perform selection sort on the array
-void selectionSort(int arr[], int size) {
-    for (int i = 0; i < size - 1; i++) {
-        int minIndex = i;
-        for (int j = i + 1; j < size; j++) {
-            if (arr[j] < arr[minIndex]) {
-                minIndex = j;
-            }
-        }
-        // Swap the elements
-        int temp = arr[i];
-        arr[i] = arr[minIndex];
-        arr[minIndex] = temp;
-    }
-    printf("Array sorted using Selection Sort.\n");
-    traverseArray(arr, size);
-}
-
 int main() {
     int choice, element, position, target;
 
@@ -96,10 +78,8 @@ int main() {
         printf("|2. Insert Element                    |\n");
         printf("|3. Delete Element                    |\n");
         printf("|4. Linear Search                     |\n");
-        printf("|5. Selection Sort                    |\n");
-        printf("|6. Exit                              |\n");
+        printf("|5. Exit                              |\n");
         printf("+-------------------------------------+\n");
-        printf("Enter your choice: ");
         printf("Enter your choice: ");
         scanf("%d", &choice);
 
@@ -113,11 +93,13 @@ int main() {
                 printf("Enter position to insert: ");
                 scanf("%d", &position);
                 insertElement(arr, &size, element, position);
+                traverseArray(arr, size);
                 break;
             case 3:
                 printf("Enter position to delete: ");
                 scanf("%d", &position);
                 deleteElement(arr, &size, position);
+                traverseArray(arr, size);
                 break;
             case 4:
                 printf("Enter element to search: ");
@@ -125,9 +107,6 @@ int main() {
                 linearSearch(arr, size, target);
                 break;
             case 5:
-                selectionSort(arr, size);
-                break;
-            case 6:
                 return 0;
             default:
                 printf("Invalid choice. Please try again.\n");
