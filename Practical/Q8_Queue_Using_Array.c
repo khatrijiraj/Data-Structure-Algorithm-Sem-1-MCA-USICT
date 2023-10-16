@@ -1,20 +1,20 @@
 #include <stdio.h>
 
-#define MAX_SIZE 5
+#define MAXSIZE 5
 
-int queue[MAX_SIZE];
+int queue[MAXSIZE];
 int front = -1;
 int rear = -1;
 
 // Function to add an element to the queue (enqueue)
 void enqueue(int item) {
-    if ((rear + 1) % MAX_SIZE == front) {
+    if ((rear + 1) % MAXSIZE == front) {
         printf("Queue is full. Cannot enqueue.\n");
     } else {
         if (front == -1) {
             front = 0;
         }
-        rear = (rear + 1) % MAX_SIZE;
+        rear = (rear + 1) % MAXSIZE;
         queue[rear] = item;
         printf("Enqueued: %d\n", item);
     }
@@ -31,7 +31,7 @@ int dequeue() {
         if (front == rear) {
             front = rear = -1;
         } else {
-            front = (front + 1) % MAX_SIZE;
+            front = (front + 1) % MAXSIZE;
         }
         printf("Dequeued: %d\n", item);
         return item;
@@ -74,7 +74,7 @@ int main() {
                 }
                 break;
             case 4:
-                if ((rear + 1) % MAX_SIZE == front) {
+                if ((rear + 1) % MAXSIZE == front) {
                     printf("Queue is full.\n");
                 } else {
                     printf("Queue is not full.\n");

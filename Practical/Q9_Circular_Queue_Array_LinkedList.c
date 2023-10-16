@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define MAX_SIZE 5
+#define MAXSIZE 5
 
 // Node structure for the linked list
 struct Node {
@@ -10,7 +10,7 @@ struct Node {
 };
 
 // Array-based circular queue variables
-int circularQueue[MAX_SIZE];
+int circularQueue[MAXSIZE];
 int front_array = -1;
 int rear_array = -1;
 
@@ -21,11 +21,11 @@ struct Node* rear_list = NULL;
 void enqueueArray(int data) {
     if (front_array == -1) {
         front_array = rear_array = 0;
-    } else if ((rear_array + 1) % MAX_SIZE == front_array) {
+    } else if ((rear_array + 1) % MAXSIZE == front_array) {
         printf("Array-based Queue is full. Cannot enqueue.\n");
         return;
     } else {
-        rear_array = (rear_array + 1) % MAX_SIZE;
+        rear_array = (rear_array + 1) % MAXSIZE;
     }
     circularQueue[rear_array] = data;
     printf("Enqueued to Array-based Queue: %d\n", data);
@@ -41,7 +41,7 @@ int dequeueArray() {
     if (front_array == rear_array) {
         front_array = rear_array = -1;
     } else {
-        front_array = (front_array + 1) % MAX_SIZE;
+        front_array = (front_array + 1) % MAXSIZE;
     }
     printf("Dequeued from Array-based Queue: %d\n", data);
     return data;

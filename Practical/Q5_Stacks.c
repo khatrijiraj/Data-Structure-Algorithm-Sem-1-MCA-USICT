@@ -3,12 +3,12 @@
 #define MAX_SIZE 100
 
 typedef struct {
-    int items[MAX_SIZE];
+    int items[MAXSIZE];
     int TOS;  // TOS stands for Top Of Stack
 } Stack;
 
 void push(Stack *ST, int value) {
-    if (ST->TOS == MAX_SIZE - 1) {
+    if (ST->TOS == MAXSIZE - 1) {
         printf("Stack overflow! Cannot push more elements.\n");
     } else {
         ST->items[++(ST->TOS)] = value;

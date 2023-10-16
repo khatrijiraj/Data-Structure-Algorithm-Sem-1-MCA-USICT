@@ -3,7 +3,7 @@
 #define MAX_SIZE 100  // Define the maximum size for the stack and other arrays
 
 typedef struct {           // Define a structure to represent a stack
-    char items[MAX_SIZE];  // Character array to store stack elements
+    char items[MAXSIZE];  // Character array to store stack elements
     int TOS;               // An integer to keep track of the top element's index
 } Stack;
 
@@ -12,7 +12,7 @@ void initializeStack(Stack *ST) {
 }
 
 void push(Stack *ST, char value) {  // Function to push an element onto the stack
-    if (ST->TOS == MAX_SIZE - 1) {  // Check if the stack is full
+    if (ST->TOS == MAXSIZE - 1) {  // Check if the stack is full
         printf("Stack overflow! Cannot push more elements.\n");
     } else {
         ST->items[++(ST->TOS)] = value;  // Increment top and add the value to the stack
@@ -64,7 +64,7 @@ void infixToPostfix(const char *infix) {  // Function to convert an infix expres
         infixLength++;
     }
 
-    char postfix[MAX_SIZE];  // Character array to store the postfix expression
+    char postfix[MAXSIZE];  // Character array to store the postfix expression
     int pIndex = 0;          // Index to keep track of where to add elements to the postfix expression
 
     int i = 0;  // Loop variable
@@ -98,7 +98,7 @@ void infixToPostfix(const char *infix) {  // Function to convert an infix expres
 }
 
 int main() {
-    char infix[MAX_SIZE];  // Character array to store the user's input infix expression
+    char infix[MAXSIZE];  // Character array to store the user's input infix expression
 
     printf("Enter an infix expression: ");
     scanf("%s", infix);  // Read the input infix expression from the user
