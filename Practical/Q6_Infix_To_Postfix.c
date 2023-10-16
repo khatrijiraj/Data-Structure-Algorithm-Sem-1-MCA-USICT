@@ -1,6 +1,6 @@
 #include <stdio.h>  // Include the standard I/O library
 
-#define MAX_SIZE 100  // Define the maximum size for the stack and other arrays
+#define MAXSIZE 100  // Define the maximum size for the stack and other arrays
 
 typedef struct {           // Define a structure to represent a stack
     char items[MAXSIZE];  // Character array to store stack elements

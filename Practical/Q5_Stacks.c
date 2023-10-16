@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-#define MAX_SIZE 100
+#define MAXSIZE 100
 
 typedef struct {
     int items[MAXSIZE];
