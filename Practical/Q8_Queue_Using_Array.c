@@ -43,7 +43,7 @@ int main() {
 
     do {
         printf("\n+-------------------------------------+\n");
-        printf("|        Choose Queue Operation         |\n");
+        printf("|        Choose Queue Operation       |\n");
         printf("+-------------------------------------+\n");
         printf("|1. Enqueue to Queue                  |\n");
         printf("|2. Dequeue from Queue                |\n");

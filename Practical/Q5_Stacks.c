@@ -42,7 +42,7 @@ int main() {
 
     do {
         printf("\n+-------------------------------------+\n");
-        printf("|        Choose Stack Operation         |\n");
+        printf("|        Choose Stack Operation       |\n");
         printf("+-------------------------------------+\n");
         printf("|1. Push to Stack                     |\n");
         printf("|2. Pop from Stack                    |\n");
