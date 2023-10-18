@@ -81,7 +81,7 @@ int dequeueList() {
 int main() {
     int choice, data;
 
-    while (1) { // Loop for main menu
+    while (1) {  // Loop for main menu
         printf("\n+-------------------------------------+\n");
         printf("|      Choose Queue Implementation    |\n");
         printf("+-------------------------------------+\n");
@@ -93,7 +93,7 @@ int main() {
         scanf("%d", &choice);
 
         switch (choice) {
-            case 1: // Array-based Circular Queue
+            case 1:  // Array-based Circular Queue
                 do {
                     printf("\n+--------------------------------------+\n");
                     printf("|  Array-based Circular Queue Options  |\n");
@@ -122,7 +122,7 @@ int main() {
                     }
                 } while (choice != 3);
                 break;
-            case 2: // Linked List-based Circular Queue
+            case 2:  // Linked List-based Circular Queue
                 do {
                     printf("\n+--------------------------------------+\n");
                     printf("|Linked List-based Circular Queue Opt. |\n");
@@ -151,7 +151,7 @@ int main() {
                     }
                 } while (choice != 3);
                 break;
-            case 3: // Exit
+            case 3:  // Exit
                 printf("Exiting the program.\n");
                 exit(0);
             default:

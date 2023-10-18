@@ -42,7 +42,7 @@ double evaluatePostfix(const char *postfix) {
         char ch = postfix[i];
         if (isOperand(ch)) {
             push(&ST, ch - '0');  // Convert character to double and push onto the stack
-        } else if (ch == '+' || ch == '-' || ch == '*' || ch == '/') {
+        } else if (ch == '+' || ch == '-' || ch == '*' || ch == '/' || ch == '^') {
             double operand2 = pop(&ST);
             double operand1 = pop(&ST);
             double result = 0.0;
@@ -65,15 +65,10 @@ double evaluatePostfix(const char *postfix) {
                         return 0.0;  // Return 0.0 to indicate an error
                     }
                     break;
+                case '^':
+                    result = pow(operand1, operand2);
             }
-
-            push(&ST, result);   // Push the result of the operation back onto the stack
-        } else if (ch == '^') {  // Handle exponentiation
-            double exponent = pop(&ST);
-            double base = pop(&ST);
-            double result = pow(base, exponent);
-
-            push(&ST, result);
+            push(&ST, result);  // Push the result of the operation back onto the stack
         }
         i++;
     }

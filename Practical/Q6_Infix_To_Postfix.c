@@ -1,10 +1,11 @@
+#include <stdbool.h>
 #include <stdio.h>  // Include the standard I/O library
 
 #define MAXSIZE 100  // Define the maximum size for the stack and other arrays
 
-typedef struct {           // Define a structure to represent a stack
+typedef struct {          // Define a structure to represent a stack
     char items[MAXSIZE];  // Character array to store stack elements
-    int TOS;               // An integer to keep track of the top element's index
+    int TOS;              // An integer to keep track of the top element's index
 } Stack;
 
 void initializeStack(Stack *ST) {
@@ -12,7 +13,7 @@ void initializeStack(Stack *ST) {
 }
 
 void push(Stack *ST, char value) {  // Function to push an element onto the stack
-    if (ST->TOS == MAXSIZE - 1) {  // Check if the stack is full
+    if (ST->TOS == MAXSIZE - 1) {   // Check if the stack is full
         printf("Stack overflow! Cannot push more elements.\n");
     } else {
         ST->items[++(ST->TOS)] = value;  // Increment top and add the value to the stack
@@ -36,7 +37,7 @@ char peek(Stack *ST) {  // Function to peek at the top element of the stack
     }
 }
 
-int isOperator(char ch) {  // Function to check if a character is an operator
+int operator(char ch) {  // Function to check if a character is an operator
     return (ch == '+' || ch == '-' || ch == '*' || ch == '/' || ch == '^');
 }
 
@@ -65,7 +66,7 @@ void infixToPostfix(const char *infix) {  // Function to convert an infix expres
     }
 
     char postfix[MAXSIZE];  // Character array to store the postfix expression
-    int pIndex = 0;          // Index to keep track of where to add elements to the postfix expression
+    int pIndex = 0;         // Index to keep track of where to add elements to the postfix expression
 
     int i = 0;  // Loop variable
     while (i < infixLength) {
@@ -73,7 +74,7 @@ void infixToPostfix(const char *infix) {  // Function to convert an infix expres
 
         if (isAlphanumeric(ch)) {
             postfix[pIndex++] = ch;   // Add alphanumeric characters to the postfix expression
-        } else if (isOperator(ch)) {  // Handle operators
+        } else if (operator(ch)) {  // Handle operators
             while (precedence(ch) <= precedence(peek(&ST))) {
                 postfix[pIndex++] = pop(&ST);  // Pop operators with higher or equal precedence
             }
@@ -97,13 +98,60 @@ void infixToPostfix(const char *infix) {  // Function to convert an infix expres
     printf("Postfix expression: %s\n", postfix);  // Print the postfix expression
 }
 
+bool isValidInfix(const char *infix) {
+    Stack ST;              // Create a stack
+    initializeStack(&ST);  // Initialize the stack
+
+    int i = 0;  // Loop variable
+    while (infix[i] != '\0') {
+        char ch = infix[i];  // Get the current character from the infix expression
+
+        if (isAlphanumeric(ch)) {
+            // Alphanumeric characters are allowed in infix expressions
+        } else if (operator(ch)) {
+            // Operators are allowed
+            if (i == 0) {
+                // The infix expression cannot start with an operator
+                return false;
+            }
+            char prevChar = infix[i - 1];
+            if (prevChar == '(' || prevChar == ')' || operator(prevChar)) {
+                // Two consecutive operators or an operator following a parenthesis are not allowed
+                return false;
+            }
+        } else if (ch == '(') {
+            push(&ST, ch);  // Push an opening parenthesis onto the stack
+        } else if (ch == ')') {
+            if (peek(&ST) != '(') {
+                // Mismatched closing parenthesis
+                return false;
+            }
+            pop(&ST);  // Pop and discard the matching opening parenthesis
+        } else {
+            // Invalid character
+            return false;
+        }
+
+        i++;
+    }
+
+    // After processing the entire string, the stack should be empty
+    return ST.TOS == -1;
+}
+
 int main() {
     char infix[MAXSIZE];  // Character array to store the user's input infix expression
 
     printf("Enter an infix expression: ");
     scanf("%s", infix);  // Read the input infix expression from the user
 
-    infixToPostfix(infix);  // Call the function to convert and print the postfix expression
+    if (isValidInfix(infix)) {
+        printf("The infix expression is valid.\n");
+        // Now you can proceed to convert it to postfix or perform further processing.
+        infixToPostfix(infix);
+    } else {
+        printf("The infix expression is not valid.\n");
+    }
 
     return 0;  // Return 0 to indicate successful execution
 }

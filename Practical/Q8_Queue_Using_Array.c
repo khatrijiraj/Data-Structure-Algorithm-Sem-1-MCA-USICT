@@ -2,20 +2,20 @@
 
 #define MAXSIZE 5
 
-int queue[MAXSIZE];
-int front = -1;
-int rear = -1;
+int queue[MAXSIZE];  // An array to store the queue elements
+int front = -1;      // Initialize the front index to -1 (indicating an empty queue)
+int rear = -1;       // Initialize the rear index to -1 (indicating an empty queue)
 
 // Function to add an element to the queue (enqueue)
 void enqueue(int item) {
-    if ((rear + 1) % MAXSIZE == front) {
+    if (rear == MAXSIZE - 1) {  // Check if the rear has reached the maximum size - 1 (indicating a full queue)
         printf("Queue is full. Cannot enqueue.\n");
     } else {
         if (front == -1) {
-            front = 0;
+            front = 0;  // If the queue was empty, set the front to 0
         }
-        rear = (rear + 1) % MAXSIZE;
-        queue[rear] = item;
+        rear++;              // Increment the rear index
+        queue[rear] = item;  // Add the item to the rear of the queue
         printf("Enqueued: %d\n", item);
     }
 }
@@ -23,18 +23,31 @@ void enqueue(int item) {
 // Function to remove an element from the queue (dequeue)
 int dequeue() {
     int item;
-    if (front == -1) {
+    if (front == -1) {  // Check if the front index is -1 (indicating an empty queue)
         printf("Queue is empty. Cannot dequeue.\n");
-        return -1;
+        return -1;  // Return -1 to indicate an empty queue
     } else {
-        item = queue[front];
+        item = queue[front];  // Get the item at the front of the queue
         if (front == rear) {
-            front = rear = -1;
+            front = rear = -1;  // If there was only one element, reset both front and rear to -1 (indicating an empty queue)
         } else {
-            front = (front + 1) % MAXSIZE;
+            front++;  // Increment the front index
         }
         printf("Dequeued: %d\n", item);
-        return item;
+        return item;  // Return the dequeued item
+    }
+}
+
+// Function to display the elements in the queue
+void display() {
+    if (front == -1) {
+        printf("Queue is empty.\n");
+    } else {
+        printf("Queue elements: ");
+        for (int i = front; i <= rear; i++) {
+            printf("%d ", queue[i]);
+        }
+        printf("\n");
     }
 }
 
@@ -50,6 +63,7 @@ int main() {
         printf("|3. Check if the Queue is Empty       |\n");
         printf("|4. Check if the Queue is Full        |\n");
         printf("|5. Exit                              |\n");
+        printf("|6. Display Queue                     |\n");
         printf("+-------------------------------------+\n");
         printf("Enter your choice: ");
         scanf("%d", &choice);
@@ -59,12 +73,14 @@ int main() {
                 printf("Enter element to enqueue: ");
                 scanf("%d", &item);
                 enqueue(item);
+                display();
                 break;
             case 2:
                 item = dequeue();
                 if (item != -1) {
                     printf("Dequeued element: %d\n", item);
                 }
+                display();
                 break;
             case 3:
                 if (front == -1) {
@@ -74,11 +90,14 @@ int main() {
                 }
                 break;
             case 4:
-                if ((rear + 1) % MAXSIZE == front) {
+                if (rear == MAXSIZE - 1) {
                     printf("Queue is full.\n");
                 } else {
                     printf("Queue is not full.\n");
                 }
+                break;
+            case 6:
+                display();  // Call the display function to show the queue elements
                 break;
             case 5:
                 printf("Exiting the program.\n");
