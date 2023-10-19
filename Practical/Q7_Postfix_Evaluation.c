@@ -1,7 +1,7 @@
 #include <math.h>  // Include the math library for pow function
 #include <stdio.h>
 
-#define MAX_SIZE 100
+#define MAX_SIZE 5
 
 typedef struct {
     double items[MAX_SIZE];  // Use double to store floating-point results

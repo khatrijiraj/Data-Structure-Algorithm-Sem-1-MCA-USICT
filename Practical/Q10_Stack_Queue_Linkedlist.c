@@ -1,52 +1,52 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-struct Node {
+typedef struct {
     int data;
     struct Node* next;
-};
+} Node;
 
-struct Stack {
+typedef struct {
     struct Node* top;
-};
+} Stack;
 
-struct Queue {
-    struct Node* front;
-    struct Node* rear;
-};
+typedef struct {
+    Node* front;
+    Node* rear;
+} Queue;
 
-struct Node* createNode(int data) {
-    struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
+Node* createNode(int data) {
+    Node* newNode = (Node*)malloc(sizeof(Node));
     newNode->data = data;
     newNode->next = NULL;
     return newNode;
 }
 
-struct Stack* createStack() {
-    struct Stack* stack = (struct Stack*)malloc(sizeof(struct Stack));
+Stack* createStack() {
+    Stack* stack = (Stack*)malloc(sizeof(Stack));
     stack->top = NULL;
     return stack;
 }
 
-struct Queue* createQueue() {
-    struct Queue* queue = (struct Queue*)malloc(sizeof(struct Queue));
+Queue* createQueue() {
+    Queue* queue = (Queue*)malloc(sizeof(Queue));
     queue->front = queue->rear = NULL;
     return queue;
 }
 
-void push(struct Stack* stack, int data) {
-    struct Node* newNode = createNode(data);
+void push(Stack* stack, int data) {
+    Node* newNode = createNode(data);
     newNode->next = stack->top;
     stack->top = newNode;
     printf("Pushed to stack: %d\n", data);
 }
 
-int pop(struct Stack* stack) {
+int pop(Stack* stack) {
     if (stack->top == NULL) {
         printf("Stack is empty. Cannot pop.\n");
         return -1;
     }
-    struct Node* temp = stack->top;
+    Node* temp = stack->top;
     int data = temp->data;
     stack->top = temp->next;
     free(temp);
@@ -54,8 +54,8 @@ int pop(struct Stack* stack) {
     return data;
 }
 
-void enqueue(struct Queue* queue, int data) {
-    struct Node* newNode = createNode(data);
+void enqueue(Queue* queue, int data) {
+    Node* newNode = createNode(data);
     if (queue->rear == NULL) {
         queue->front = queue->rear = newNode;
     } else {
@@ -65,12 +65,12 @@ void enqueue(struct Queue* queue, int data) {
     printf("Enqueued to queue: %d\n", data);
 }
 
-int dequeue(struct Queue* queue) {
+int dequeue(Queue* queue) {
     if (queue->front == NULL) {
         printf("Queue is empty. Cannot dequeue.\n");
         return -1;
     }
-    struct Node* temp = queue->front;
+    Node* temp = queue->front;
     int data = temp->data;
     queue->front = temp->next;
     free(temp);
@@ -82,8 +82,8 @@ int dequeue(struct Queue* queue) {
 }
 
 int main() {
-    struct Stack* stack = createStack();
-    struct Queue* queue = createQueue();
+    Stack* stack = createStack();
+    Queue* queue = createQueue();
     int choice, data;
 
     while (1) {

@@ -2,43 +2,40 @@
 
 #define MAXSIZE 5
 
-int queue[MAXSIZE];  // An array to store the queue elements
-int front = -1;      // Initialize the front index to -1 (indicating an empty queue)
-int rear = -1;       // Initialize the rear index to -1 (indicating an empty queue)
+int queue[MAXSIZE];
+int front = -1;
+int rear = -1;
 
-// Function to add an element to the queue (enqueue)
 void enqueue(int item) {
-    if (rear == MAXSIZE - 1) {  // Check if the rear has reached the maximum size - 1 (indicating a full queue)
+    if (rear == MAXSIZE - 1) {
         printf("Queue is full. Cannot enqueue.\n");
     } else {
         if (front == -1) {
-            front = 0;  // If the queue was empty, set the front to 0
+            front = 0;
         }
-        rear++;              // Increment the rear index
-        queue[rear] = item;  // Add the item to the rear of the queue
+        rear++;
+        queue[rear] = item;
         printf("Enqueued: %d\n", item);
     }
 }
 
-// Function to remove an element from the queue (dequeue)
 int dequeue() {
     int item;
-    if (front == -1) {  // Check if the front index is -1 (indicating an empty queue)
+    if (front == -1) {
         printf("Queue is empty. Cannot dequeue.\n");
-        return -1;  // Return -1 to indicate an empty queue
+        return -1;
     } else {
-        item = queue[front];  // Get the item at the front of the queue
+        item = queue[front];
         if (front == rear) {
-            front = rear = -1;  // If there was only one element, reset both front and rear to -1 (indicating an empty queue)
+            front = rear = -1;
         } else {
-            front++;  // Increment the front index
+            front++;
         }
         printf("Dequeued: %d\n", item);
-        return item;  // Return the dequeued item
+        return item;
     }
 }
 
-// Function to display the elements in the queue
 void display() {
     if (front == -1) {
         printf("Queue is empty.\n");
