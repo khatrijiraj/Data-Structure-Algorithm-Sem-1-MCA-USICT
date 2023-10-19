@@ -14,7 +14,7 @@ void initializeStack(Stack *ST) {
 
 void push(Stack *ST, double value) {
     if (ST->TOS == MAX_SIZE - 1) {
-        printf("Stack overflow! Cannot push more elements.\n");
+        printf("Stack Overflow! Cannot push more elements.\n");
     } else {
         ST->items[++(ST->TOS)] = value;
     }
@@ -22,7 +22,7 @@ void push(Stack *ST, double value) {
 
 double pop(Stack *ST) {
     if (ST->TOS == -1) {
-        printf("Stack is empty. Cannot pop.\n");
+        printf("Stack Underflow. Cannot pop.\n");
         return 0.0;  // Return 0.0 to indicate an error
     } else {
         return ST->items[(ST->TOS)--];

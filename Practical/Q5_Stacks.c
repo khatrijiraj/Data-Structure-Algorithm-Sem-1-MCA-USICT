@@ -9,7 +9,7 @@ typedef struct {
 
 void push(Stack *ST, int value) {
     if (ST->TOS == MAXSIZE - 1) {
-        printf("Stack overflow! Cannot push more elements.\n");
+        printf("Stack Overflow! Cannot push more elements.\n");
     } else {
         ST->items[++(ST->TOS)] = value;
         printf("Pushed %d onto the stack.\n", value);
@@ -18,7 +18,7 @@ void push(Stack *ST, int value) {
 
 void pop(Stack *ST) {
     if (ST->TOS == -1) {
-        printf("Stack underflow! Cannot pop, the stack is empty.\n");
+        printf("Stack Underflow! Cannot pop, the stack is empty.\n");
     } else {
         int value = ST->items[(ST->TOS)--];
         printf("Popped %d from the stack.\n", value);

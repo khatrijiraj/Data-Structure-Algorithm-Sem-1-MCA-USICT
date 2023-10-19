@@ -14,7 +14,7 @@ void initializeStack(Stack *ST) {
 
 void push(Stack *ST, char value) {
     if (ST->TOS == MAXSIZE - 1) {
-        printf("Stack overflow! Cannot push more elements.\n");
+        printf("Stack Overflow! Cannot push more elements.\n");
     } else {
         ST->items[++(ST->TOS)] = value;
     }
@@ -22,7 +22,7 @@ void push(Stack *ST, char value) {
 
 char pop(Stack *ST) {
     if (ST->TOS == -1) {
-        printf("Stack is empty. Cannot pop.\n");
+        printf("Stack Underflow. Cannot pop.\n");
         return '\0';
     } else {
         return ST->items[(ST->TOS)--];
@@ -124,10 +124,8 @@ bool isValidInfix(char *infix) {
         } else {
             return false;
         }
-
         i++;
     }
-
     return ST.TOS == -1;
 }
 
