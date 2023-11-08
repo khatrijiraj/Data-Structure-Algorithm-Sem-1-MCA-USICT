@@ -1,117 +1,100 @@
-// Implement operations (traverse, insert, delete, linear search, selection sort) on an array.
-#include <stdbool.h>
 #include <stdio.h>
+#include <stdlib.h>
 
-// Function to traverse and print the elements of the array
-void traverseArray(int arr[], int size) {
-    printf("Array: ");
-    for (int i = 0; i < size; i++) {
-        printf("%d ", arr[i]);
+struct SparseMatrix {
+    int rows, cols, count;
+    int *row_ptr;
+    int *col_idx;
+    int *values;
+};
+
+struct SparseMatrix createSparseMatrix(int rows, int cols, int count) {
+    struct SparseMatrix matrix;
+    matrix.rows = rows;
+    matrix.cols = cols;
+    matrix.count = count;
+
+    matrix.row_ptr = (int *)malloc((rows + 1) * sizeof(int));
+    matrix.col_idx = (int *)malloc(count * sizeof(int));
+    matrix.values = (int *)malloc(count * sizeof(int));
+
+    if (!matrix.row_ptr || !matrix.col_idx || !matrix.values) {
+        fprintf(stderr, "Memory allocation failed. Exiting...\n");
+        exit(EXIT_FAILURE);
     }
-    printf("\n");
+
+    return matrix;
 }
 
-// Function to insert an element at a specified position in the array
-void insertElement(int arr[], int *size, int element, int position) {
-    if (position < 0 || position > *size) {
-        printf("Invalid position. Element not inserted.\n");
+void insertElement(struct SparseMatrix *matrix, int row, int col, int value) {
+    if (row < 0 || row >= matrix->rows || col < 0 || col >= matrix->cols) {
+        printf("Invalid row or column index. Element not inserted.\n");
         return;
     }
 
-    // Shift elements to make space for the new element
-    for (int i = *size - 1; i >= position; i--) {
-        arr[i + 1] = arr[i];
-    }
-
-    // Insert the new element
-    arr[position] = element;
-    (*size)++;
-    printf("Element %d inserted at position %d.\n", element, position);
-}
-
-// Function to delete an element at a specified position in the array
-void deleteElement(int arr[], int *size, int position) {
-    if (position < 0 || position >= *size) {
-        printf("Invalid position. Element not deleted.\n");
+    if (matrix->count >= matrix->rows * matrix->cols) {
+        printf("Matrix is full. Element not inserted.\n");
         return;
     }
 
-    // Shift elements to fill the gap left by the deleted element
-    for (int i = position; i < *size - 1; i++) {
-        arr[i] = arr[i + 1];
-    }
+    matrix->values[matrix->count] = value;
+    matrix->col_idx[matrix->count] = col;
+    matrix->count++;
 
-    (*size)--;
-    printf("Element at position %d deleted.\n", position);
+    for (int i = row + 1; i <= matrix->rows; i++) {
+        matrix->row_ptr[i]++;
+    }
 }
 
-// Function to perform linear search for an element in the array
-bool linearSearch(int arr[], int size, int target) {
-    for (int i = 0; i < size; i++) {
-        if (arr[i] == target) {
-            printf("Element %d found at position %d.\n", target, i);
-            return true;  // Element found
+int getElement(struct SparseMatrix matrix, int row, int col) {
+    if (row < 0 || row >= matrix.rows || col < 0 || col >= matrix.cols) {
+        printf("Invalid row or column index.\n");
+        return 0;
+    }
+
+    for (int i = matrix.row_ptr[row]; i < matrix.row_ptr[row + 1]; i++) {
+        if (matrix.col_idx[i] == col) {
+            return matrix.values[i];
         }
     }
-    printf("Element %d not found in the array.\n", target);
-    return false;  // Element not found
+
+    return 0;  // Element is zero if not found
+}
+
+void printSparseMatrix(struct SparseMatrix matrix) {
+    printf("Sparse Matrix (%dx%d):\n", matrix.rows, matrix.cols);
+    for (int i = 0; i < matrix.rows; i++) {
+        for (int j = 0; j < matrix.cols; j++) {
+            int value = getElement(matrix, i, j);
+            printf("%d ", value);
+        }
+        printf("\n");
+    }
 }
 
 int main() {
-    int choice, element, position, target;
+    int rows, cols, count;
+    printf("Enter the number of rows: ");
+    scanf("%d", &rows);
+    printf("Enter the number of columns: ");
+    scanf("%d", &cols);
+    printf("Enter the number of non-zero elements: ");
+    scanf("%d", &count);
 
-    int size;
-    printf("Enter the size of the array: ");
-    scanf("%d", &size);
+    struct SparseMatrix matrix = createSparseMatrix(rows, cols, count);
 
-    int arr[size];  // Declare an array of the user-defined size
-    printf("Enter %d elements: ", size);
-    for (int i = 0; i < size; i++) {
-        scanf("%d", &arr[i]);  // Input each element directly into the array
+    printf("Enter the non-zero elements (row, column, value):\n");
+    for (int i = 0; i < count; i++) {
+        int row, col, value;
+        scanf("%d %d %d", &row, &col, &value);
+        insertElement(&matrix, row, col, value);
     }
 
-    while (1) {
-        printf("\n+-------------------------------------+\n");
-        printf("|        Choose Array Operation         |\n");
-        printf("+-------------------------------------+\n");
-        printf("|1. Traverse Array                    |\n");
-        printf("|2. Insert Element                    |\n");
-        printf("|3. Delete Element                    |\n");
-        printf("|4. Linear Search                     |\n");
-        printf("|5. Exit                              |\n");
-        printf("+-------------------------------------+\n");
-        printf("Enter your choice: ");
-        printf("Enter your choice: ");
-        scanf("%d", &choice);
+    printSparseMatrix(matrix);
 
-        switch (choice) {
-            case 1:
-                traverseArray(arr, size);
-                break;
-            case 2:
-                printf("Enter element to insert: ");
-                scanf("%d", &element);
-                printf("Enter position to insert: ");
-                scanf("%d", &position);
-                insertElement(arr, &size, element, position);
-                traverseArray(arr, size);
-                break;
-            case 3:
-                printf("Enter position to delete: ");
-                scanf("%d", &position);
-                deleteElement(arr, &size, position);
-                traverseArray(arr, size);
-                break;
-            case 4:
-                printf("Enter element to search: ");
-                scanf("%d", &target);
-                linearSearch(arr, size, target);
-                break;
-            case 5:
-                return 0;
-            default:
-                printf("Invalid choice. Please try again.\n");
-        }
-    }
+    free(matrix.row_ptr);
+    free(matrix.col_idx);
+    free(matrix.values);
+
     return 0;
 }

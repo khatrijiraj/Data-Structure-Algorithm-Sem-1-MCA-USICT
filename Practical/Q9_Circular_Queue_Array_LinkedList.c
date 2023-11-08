@@ -3,20 +3,10 @@
 
 #define MAXSIZE 5
 
-// Node structure for the linked list
-struct Node {
-    int data;
-    struct Node* next;
-};
-
 // Array-based circular queue variables
 int circularQueue[MAXSIZE];
 int front_array = -1;
 int rear_array = -1;
-
-// Linked list-based circular queue variables
-struct Node* front_list = NULL;
-struct Node* rear_list = NULL;
 
 void enqueueArray(int data) {
     if (front_array == -1) {
@@ -36,7 +26,6 @@ int dequeueArray() {
         printf("Array-based Queue is empty. Cannot dequeue.\n");
         return -1;
     }
-
     int data = circularQueue[front_array];
     if (front_array == rear_array) {
         front_array = rear_array = -1;
@@ -46,6 +35,16 @@ int dequeueArray() {
     printf("Dequeued from Array-based Queue: %d\n", data);
     return data;
 }
+
+// Node structure for the linked list
+struct Node {
+    int data;
+    struct Node* next;
+};
+
+// Linked list-based circular queue variables
+struct Node* front_list = NULL;
+struct Node* rear_list = NULL;
 
 void enqueueList(int data) {
     struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));

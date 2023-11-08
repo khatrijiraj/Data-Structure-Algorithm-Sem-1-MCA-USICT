@@ -6,15 +6,6 @@ typedef struct {
     struct Node* next;
 } Node;
 
-typedef struct {
-    struct Node* top;
-} Stack;
-
-typedef struct {
-    Node* front;
-    Node* rear;
-} Queue;
-
 Node* createNode(int data) {
     Node* newNode = (Node*)malloc(sizeof(Node));
     newNode->data = data;
@@ -22,16 +13,14 @@ Node* createNode(int data) {
     return newNode;
 }
 
+typedef struct {
+    struct Node* top;
+} Stack;
+
 Stack* createStack() {
     Stack* stack = (Stack*)malloc(sizeof(Stack));
     stack->top = NULL;
     return stack;
-}
-
-Queue* createQueue() {
-    Queue* queue = (Queue*)malloc(sizeof(Queue));
-    queue->front = queue->rear = NULL;
-    return queue;
 }
 
 void push(Stack* stack, int data) {
@@ -52,6 +41,17 @@ int pop(Stack* stack) {
     free(temp);
     printf("Popped from stack: %d\n", data);
     return data;
+}
+
+typedef struct {
+    Node* front;
+    Node* rear;
+} Queue;
+
+Queue* createQueue() {
+    Queue* queue = (Queue*)malloc(sizeof(Queue));
+    queue->front = queue->rear = NULL;
+    return queue;
 }
 
 void enqueue(Queue* queue, int data) {
