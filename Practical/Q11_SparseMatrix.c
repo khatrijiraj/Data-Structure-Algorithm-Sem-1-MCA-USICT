@@ -20,23 +20,23 @@ int isMatrixSparse(int mat[MAX_ROWS][MAX_COLS], int rows, int cols) {
 }
 
 // Function to convert matrix to sparse triplet representation
-void convertToSparseTripletForm(int mat[MAX_ROWS][MAX_COLS], int rows, int cols, int sparseTriplet[3][MAX_ROWS * MAX_COLS], int *nonZeroCount) {
+void convertToSparseTripletForm(int mat[MAX_ROWS][MAX_COLS], int rows, int cols, int sparseTriplet[3][MAX_ROWS * MAX_COLS], int *colnumber) {
     for (int i = 0; i < rows; i++) {
         for (int j = 0; j < cols; j++) {
             if (mat[i][j] != 0) {
-                sparseTriplet[0][*nonZeroCount] = i;          // Row index
-                sparseTriplet[1][*nonZeroCount] = j;          // Column index
-                sparseTriplet[2][*nonZeroCount] = mat[i][j];  // Value
-                (*nonZeroCount)++;
+                sparseTriplet[0][*colnumber] = i;          // Row index
+                sparseTriplet[1][*colnumber] = j;          // Column index
+                sparseTriplet[2][*colnumber] = mat[i][j];  // Value
+                (*colnumber)++;
             }
         }
     }
 }
 
 // Function to display the sparse triplet representation
-void printSparseTripletForm(int sparseTriplet[3][MAX_ROWS * MAX_COLS], int count) {
+void printSparseTripletForm(int sparseTriplet[3][MAX_ROWS * MAX_COLS], int count, int row, int col) {
     printf("Sparse triplet representation:\n");
-    printf("Row\tColumn\tValue\n");
+    printf("%d\t%d\t%d\n", row, col, count);
 
     for (int i = 0; i < count; i++) {
         printf("%d\t%d\t%d\n", sparseTriplet[0][i], sparseTriplet[1][i], sparseTriplet[2][i]);
@@ -88,7 +88,7 @@ int main() {
         convertToSparseTripletForm(inputMat, numRows, numCols, sparseTriplet, &nonZeroCount);
 
         // Display the sparse triplet representation
-        printSparseTripletForm(sparseTriplet, nonZeroCount);
+        printSparseTripletForm(sparseTriplet, nonZeroCount, numRows, numCols);
     } else {
         printf("The matrix is not sparse.\n");
     }
