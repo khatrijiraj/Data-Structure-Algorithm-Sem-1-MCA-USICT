@@ -71,8 +71,9 @@ struct AVLNode* insert(struct AVLNode* node, int data) {
         node->left = insert(node->left, data);
     } else if (data > node->data) {
         node->right = insert(node->right, data);
-    } else
+    } else {
         return node;
+    }
 
     node->height = 1 + max(height(node->left), height(node->right));
 

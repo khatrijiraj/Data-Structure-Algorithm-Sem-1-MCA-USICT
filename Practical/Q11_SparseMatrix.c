@@ -6,7 +6,7 @@
 // Function to check if a matrix is sparse
 int isMatrixSparse(int mat[MAX_ROWS][MAX_COLS], int rows, int cols) {
     int zeroCount = 0;
-    int sparsityThreshold = (rows * cols) / 2;  // Set a threshold for sparsity
+    int sparsityThreshold = (rows * cols) / 4;  // Set a threshold for sparsity
 
     for (int i = 0; i < rows; i++) {
         for (int j = 0; j < cols; j++) {
