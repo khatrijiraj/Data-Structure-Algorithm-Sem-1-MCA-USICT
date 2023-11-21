@@ -17,9 +17,9 @@ struct StackNode {
 };
 
 // Function to create a new node
-struct Node* createNode(int value) {
+struct Node* createNode(int data) {
     struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
-    newNode->data = value;
+    newNode->data = data;
     newNode->left = newNode->right = NULL;
     return newNode;
 }
@@ -46,8 +46,9 @@ void push(struct StackNode** root, struct Node* node) {
 
 // Function to pop a node from the stack
 struct Node* pop(struct StackNode** root) {
-    if (isEmpty(*root))
+    if (isEmpty(*root)) {
         return NULL;
+    }
     struct StackNode* temp = *root;
     *root = (*root)->next;
     struct Node* popped = temp->data;
@@ -85,18 +86,20 @@ void iterativePreorder(struct Node* root) {
         struct Node* current = pop(&stack);
         printf("%d ", current->data);
 
-        if (current->right)
+        if (current->right) {
             push(&stack, current->right);
-
-        if (current->left)
+        }
+        if (current->left) {
             push(&stack, current->left);
+        }
     }
 }
 
 // Function to perform iterative postorder traversal
 void iterativePostorder(struct Node* root) {
-    if (root == NULL)
+    if (root == NULL) {
         return;
+    }
 
     struct StackNode* stack1 = NULL;
     struct StackNode* stack2 = NULL;
@@ -106,11 +109,12 @@ void iterativePostorder(struct Node* root) {
         struct Node* current = pop(&stack1);
         push(&stack2, current);
 
-        if (current->left)
+        if (current->left) {
             push(&stack1, current->left);
-
-        if (current->right)
+        }
+        if (current->right) {
             push(&stack1, current->right);
+        }
     }
 
     while (!isEmpty(stack2)) {
@@ -120,15 +124,15 @@ void iterativePostorder(struct Node* root) {
 }
 
 // Function to insert a value into the BST
-struct Node* insert(struct Node* root, int value) {
+struct Node* insert(struct Node* root, int data) {
     if (root == NULL) {
-        return createNode(value);
+        return createNode(data);
     }
 
-    if (value < root->data) {
-        root->left = insert(root->left, value);
-    } else if (value > root->data) {
-        root->right = insert(root->right, value);
+    if (data < root->data) {
+        root->left = insert(root->left, data);
+    } else if (data > root->data) {
+        root->right = insert(root->right, data);
     }
 
     return root;
@@ -147,16 +151,16 @@ struct Node* minValueNode(struct Node* node) {
 }
 
 // Function to delete a value from the BST
-struct Node* deleteNode(struct Node* root, int value) {
+struct Node* deleteNode(struct Node* root, int data) {
     if (root == NULL) {
         return root;
     }
 
     // Recursively search for the node to be deleted
-    if (value < root->data) {
-        root->left = deleteNode(root->left, value);
-    } else if (value > root->data) {
-        root->right = deleteNode(root->right, value);
+    if (data < root->data) {
+        root->left = deleteNode(root->left, data);
+    } else if (data > root->data) {
+        root->right = deleteNode(root->right, data);
     } else {
         // Node with only one child or no child
         if (root->left == NULL) {
@@ -179,7 +183,6 @@ struct Node* deleteNode(struct Node* root, int value) {
         // Delete the inorder successor
         root->right = deleteNode(root->right, temp->data);
     }
-
     return root;
 }
 
