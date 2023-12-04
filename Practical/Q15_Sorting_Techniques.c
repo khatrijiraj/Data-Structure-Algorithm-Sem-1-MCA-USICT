@@ -3,19 +3,6 @@ insertion, merge, heap, quick, counting, radix, bucket. */
 #include <stdio.h>
 #include <stdlib.h>
 
-// Function prototypes
-void displayMenu();
-void insertionSort(int arr[], int n);
-void mergeSort(int arr[], int l, int r);
-void merge(int arr[], int l, int m, int r);
-void heapSort(int arr[], int n);
-void heapify(int arr[], int n, int i);
-void quickSort(int arr[], int low, int high);
-int partition(int arr[], int low, int high);
-void countingSort(int arr[], int n);
-void radixSort(int arr[], int n);
-void bucketSort(int arr[], int n);
-
 // Function to display the main menu
 void displayMenu() {
     printf("\n+----------------------------------------+\n");
@@ -23,319 +10,187 @@ void displayMenu() {
     printf("+----------------------------------------+\n");
     printf("|1. Insertion Sort                      |\n");
     printf("|2. Merge Sort                          |\n");
-    printf("|3. Heap Sort                           |\n");
-    printf("|4. Quick Sort                          |\n");
-    printf("|5. Counting Sort                       |\n");
-    printf("|6. Radix Sort                          |\n");
-    printf("|7. Bucket Sort                         |\n");
-    printf("|8. Exit                                |\n");
+    printf("|3. Quick Sort                          |\n");
+    printf("|4. Exit                                |\n");
     printf("+----------------------------------------+\n");
     printf("Enter your choice: ");
 }
 
 // Function to perform Insertion Sort
-void insertionSort(int arr[], int n) {
-    int i, key, j;
-    for (i = 1; i < n; i++) {
-        key = arr[i];
-        j = i - 1;
+void insertionSort(int array[], int size) {
+    int currentIndex, currentElement, comparisonIndex;
 
-        while (j >= 0 && arr[j] > key) {
-            arr[j + 1] = arr[j];
-            j = j - 1;
+    for (currentIndex = 1; currentIndex < size; currentIndex++) {
+        // Select the current element as the key to be inserted
+        currentElement = array[currentIndex];
+        // Find the correct position for the current element in the sorted part of the array
+
+        comparisonIndex = currentIndex - 1;
+
+        // Shift elements greater than the current element to the right
+        while (comparisonIndex >= 0 && array[comparisonIndex] > currentElement) {
+            array[comparisonIndex + 1] = array[comparisonIndex];
+            comparisonIndex = comparisonIndex - 1;
         }
-        arr[j + 1] = key;
+
+        // Place the current element at its correct position in the sorted part of the array
+        array[comparisonIndex + 1] = currentElement;
     }
 }
 
 // Function to perform Merge Sort
-void merge(int arr[], int l, int m, int r) {
+void merge(int array[], int left, int middle, int right) {
     int i, j, k;
-    int n1 = m - l + 1;
-    int n2 = r - m;
+    int sizeLeft = middle - left + 1;
+    int sizeRight = right - middle;
 
-    int L[n1], R[n2];
+    int leftArray[sizeLeft], rightArray[sizeRight];
 
-    for (i = 0; i < n1; i++)
-        L[i] = arr[l + i];
-    for (j = 0; j < n2; j++)
-        R[j] = arr[m + 1 + j];
+    // Copy data to temporary arrays leftArray[] and rightArray[]
+    for (i = 0; i < sizeLeft; i++)
+        leftArray[i] = array[left + i];
+    for (j = 0; j < sizeRight; j++)
+        rightArray[j] = array[middle + 1 + j];
 
-    i = 0;
-    j = 0;
-    k = l;
+    // Merge the two arrays back into the original array
+    i = 0;     // Initial index of left subarray
+    j = 0;     // Initial index of right subarray
+    k = left;  // Initial index of merged subarray
 
-    while (i < n1 && j < n2) {
-        if (L[i] <= R[j]) {
-            arr[k] = L[i];
+    while (i < sizeLeft && j < sizeRight) {
+        if (leftArray[i] <= rightArray[j]) {
+            array[k] = leftArray[i];
             i++;
         } else {
-            arr[k] = R[j];
+            array[k] = rightArray[j];
             j++;
         }
         k++;
     }
 
-    while (i < n1) {
-        arr[k] = L[i];
+    // Copy the remaining elements of leftArray[], if there are any
+    while (i < sizeLeft) {
+        array[k] = leftArray[i];
         i++;
         k++;
     }
 
-    while (j < n2) {
-        arr[k] = R[j];
+    // Copy the remaining elements of rightArray[], if there are any
+    while (j < sizeRight) {
+        array[k] = rightArray[j];
         j++;
         k++;
     }
 }
 
-void mergeSort(int arr[], int l, int r) {
-    if (l < r) {
-        int m = l + (r - l) / 2;
+void mergeSort(int array[], int left, int right) {
+    if (left < right) {
+        // Calculate the middle index
+        int middle = left + (right - left) / 2;
 
-        mergeSort(arr, l, m);
-        mergeSort(arr, m + 1, r);
+        // Recursively sort the left and right halves
+        mergeSort(array, left, middle);
+        mergeSort(array, middle + 1, right);
 
-        merge(arr, l, m, r);
+        // Merge the sorted halves
+        merge(array, left, middle, right);
     }
 }
 
-// Function to perform Heap Sort
-void heapify(int arr[], int n, int i) {
-    int largest = i;
-    int l = 2 * i + 1;
-    int r = 2 * i + 2;
+// Function to partition the array and return the index of the pivot
+int partition(int array[], int low, int high) {
+    // Choose the rightmost element as the pivot
+    int pivot = array[high];
 
-    if (l < n && arr[l] > arr[largest])
-        largest = l;
+    // Initialize the index of the smaller element
+    int smallerIndex = (low - 1);
 
-    if (r < n && arr[r] > arr[largest])
-        largest = r;
-
-    if (largest != i) {
-        int temp = arr[i];
-        arr[i] = arr[largest];
-        arr[largest] = temp;
-
-        heapify(arr, n, largest);
+    // Iterate through the elements from low to high-1
+    for (int currentIndex = low; currentIndex <= high - 1; currentIndex++) {
+        // If the current element is smaller than or equal to the pivot
+        if (array[currentIndex] <= pivot) {
+            // Swap array[smallerIndex + 1] and array[currentIndex]
+            smallerIndex++;
+            int temp = array[smallerIndex];
+            array[smallerIndex] = array[currentIndex];
+            array[currentIndex] = temp;
+        }
     }
-}
 
-void heapSort(int arr[], int n) {
-    for (int i = n / 2 - 1; i >= 0; i--)
-        heapify(arr, n, i);
+    // Swap array[smallerIndex + 1] and array[high] to place the pivot in its correct position
+    int temp = array[smallerIndex + 1];
+    array[smallerIndex + 1] = array[high];
+    array[high] = temp;
 
-    for (int i = n - 1; i > 0; i--) {
-        int temp = arr[0];
-        arr[0] = arr[i];
-        arr[i] = temp;
-
-        heapify(arr, i, 0);
-    }
+    // Return the index of the pivot
+    return (smallerIndex + 1);
 }
 
 // Function to perform Quick Sort
-int partition(int arr[], int low, int high) {
-    int pivot = arr[high];
-    int i = (low - 1);
-
-    for (int j = low; j <= high - 1; j++) {
-        if (arr[j] < pivot) {
-            i++;
-            int temp = arr[i];
-            arr[i] = arr[j];
-            arr[j] = temp;
-        }
-    }
-
-    int temp = arr[i + 1];
-    arr[i + 1] = arr[high];
-    arr[high] = temp;
-
-    return (i + 1);
-}
-
-void quickSort(int arr[], int low, int high) {
+void quickSort(int array[], int low, int high) {
     if (low < high) {
-        int pi = partition(arr, low, high);
+        // Partition the array and get the pivot index
+        int pivotIndex = partition(array, low, high);
 
-        quickSort(arr, low, pi - 1);
-        quickSort(arr, pi + 1, high);
+        // Recursively sort the subarrays before and after the pivot
+        quickSort(array, low, pivotIndex - 1);
+        quickSort(array, pivotIndex + 1, high);
     }
-}
-
-// Function to perform Counting Sort
-void countingSort(int arr[], int n) {
-    int max = arr[0];
-    for (int i = 1; i < n; i++) {
-        if (arr[i] > max)
-            max = arr[i];
-    }
-
-    int count[max + 1];
-    int output[n];
-
-    for (int i = 0; i <= max; i++)
-        count[i] = 0;
-
-    for (int i = 0; i < n; i++)
-        count[arr[i]]++;
-
-    for (int i = 1; i <= max; i++)
-        count[i] += count[i - 1];
-
-    for (int i = n - 1; i >= 0; i--) {
-        output[count[arr[i]] - 1] = arr[i];
-        count[arr[i]]--;
-    }
-
-    for (int i = 0; i < n; i++)
-        arr[i] = output[i];
-}
-
-// Function to perform Radix Sort
-int getMax(int arr[], int n) {
-    int max = arr[0];
-    for (int i = 1; i < n; i++)
-        if (arr[i] > max)
-            max = arr[i];
-    return max;
-}
-
-void countSort(int arr[], int n, int exp) {
-    int output[n];
-    int count[10] = {0};
-
-    for (int i = 0; i < n; i++)
-        count[(arr[i] / exp) % 10]++;
-
-    for (int i = 1; i < 10; i++)
-        count[i] += count[i - 1];
-
-    for (int i = n - 1; i >= 0; i--) {
-        output[count[(arr[i] / exp) % 10] - 1] = arr[i];
-        count[(arr[i] / exp) % 10]--;
-    }
-
-    for (int i = 0; i < n; i++)
-        arr[i] = output[i];
-}
-
-void radixSort(int arr[], int n) {
-    int max = getMax(arr, n);
-
-    for (int exp = 1; max / exp > 0; exp *= 10)
-        countSort(arr, n, exp);
-}
-
-// Function to perform Bucket Sort
-void bucketSort(int arr[], int n) {
-    int max = arr[0];
-    int min = arr[0];
-    for (int i = 1; i < n; i++) {
-        if (arr[i] > max)
-            max = arr[i];
-        if (arr[i] < min)
-            min = arr[i];
-    }
-
-    int range = max - min + 1;
-    int** buckets = (int**)malloc(range * sizeof(int*));
-
-    for (int i = 0; i < range; i++) {
-        buckets[i] = (int*)malloc(n * sizeof(int));
-    }
-
-    for (int i = 0; i < range; i++) {
-        for (int j = 0; j < n; j++) {
-            buckets[i][j] = 0;
-        }
-    }
-
-    for (int i = 0; i < n; i++) {
-        buckets[arr[i] - min][i] = arr[i];
-    }
-
-    int index = 0;
-    for (int i = 0; i < range; i++) {
-        for (int j = 0; j < n; j++) {
-            if (buckets[i][j] != 0) {
-                arr[index++] = buckets[i][j];
-            }
-        }
-    }
-
-    for (int i = 0; i < range; i++) {
-        free(buckets[i]);
-    }
-    free(buckets);
 }
 
 // Driver program to test sorting techniques
 int main() {
-    int n, i;
-
+    printf("Ahh!!! Shit here we go again!\n");
+    int numElements, i;
+    // Prompt the user to enter the number of elements in the array
     printf("Enter the number of elements in the array: ");
-    scanf("%d", &n);
+    scanf("%d", &numElements);
 
-    int arr[n];
+    // Declare an array of size numElements to store user-input elements
+    int inputArray[numElements];
 
+    // Prompt the user to enter the elements of the array
     printf("Enter the elements of the array:\n");
-    for (i = 0; i < n; i++) {
-        scanf("%d", &arr[i]);
+    for (i = 0; i < numElements; i++) {
+        scanf("%d", &inputArray[i]);
     }
 
-    int choice;
+    int userChoice;
     do {
+        // Display the sorting techniques menu and get user choice
         displayMenu();
-        scanf("%d", &choice);
+        scanf("%d", &userChoice);
 
-        switch (choice) {
+        // Apply the chosen sorting technique based on user's choice
+        switch (userChoice) {
             case 1:
-                insertionSort(arr, n);
+                insertionSort(inputArray, numElements);
                 break;
-
             case 2:
-                mergeSort(arr, 0, n - 1);
+                mergeSort(inputArray, 0, numElements - 1);
                 break;
-
             case 3:
-                heapSort(arr, n);
+                quickSort(inputArray, 0, numElements - 1);
                 break;
-
             case 4:
-                quickSort(arr, 0, n - 1);
+                // Exit the program
+                printf("Exiting the program.\n");
                 break;
-
-            case 5:
-                countingSort(arr, n);
-                break;
-
-            case 6:
-                radixSort(arr, n);
-                break;
-
-            case 7:
-                bucketSort(arr, n);
-                break;
-
-            case 8:
-                printf("Exiting the program. Goodbye!\n");
-                break;
-
             default:
+                // Invalid choice, prompt the user to enter a valid option
                 printf("Invalid choice! Please enter a valid option.\n");
         }
 
-        if (choice != 8) {
+        // Display the sorted array if the user did not choose to exit
+        if (userChoice != 4) {
             printf("Sorted array using the chosen technique:\n");
-            for (i = 0; i < n; i++) {
-                printf("%d ", arr[i]);
+            for (i = 0; i < numElements; i++) {
+                printf("%d ", inputArray[i]);
             }
             printf("\n");
         }
+    } while (userChoice != 4);
 
-    } while (choice != 8);
-
+    // Return 0 to indicate successful program execution
     return 0;
 }

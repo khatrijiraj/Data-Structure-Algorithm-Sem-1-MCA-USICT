@@ -96,8 +96,8 @@ int displayMainMenu() {
     printf("|      Graph Operations Menu          |\n");
     printf("+-------------------------------------+\n");
     printf("|1. Add Edge                          |\n");
-    printf("|2. Depth-First Search (DFS)           |\n");
-    printf("|3. Breadth-First Search (BFS)         |\n");
+    printf("|2. Depth-First Search (DFS)          |\n");
+    printf("|3. Breadth-First Search (BFS)        |\n");
     printf("|4. Exit                              |\n");
     printf("+-------------------------------------+\n");
     printf("Enter your choice: ");
