@@ -18,23 +18,23 @@ void displayMenu() {
 
 // Function to perform Insertion Sort
 void insertionSort(int array[], int size) {
-    int currentIndex, currentElement, comparisonIndex;
+    int currentIndex, currentElement, previndex;
 
     for (currentIndex = 1; currentIndex < size; currentIndex++) {
         // Select the current element as the key to be inserted
         currentElement = array[currentIndex];
         // Find the correct position for the current element in the sorted part of the array
 
-        comparisonIndex = currentIndex - 1;
+        previndex = currentIndex - 1;
 
         // Shift elements greater than the current element to the right
-        while (comparisonIndex >= 0 && array[comparisonIndex] > currentElement) {
-            array[comparisonIndex + 1] = array[comparisonIndex];
-            comparisonIndex = comparisonIndex - 1;
+        while (previndex >= 0 && array[previndex] > currentElement) {
+            array[previndex + 1] = array[previndex];
+            previndex = previndex - 1;
         }
 
         // Place the current element at its correct position in the sorted part of the array
-        array[comparisonIndex + 1] = currentElement;
+        array[previndex + 1] = currentElement;
     }
 }
 
@@ -97,33 +97,40 @@ void mergeSort(int array[], int left, int right) {
     }
 }
 
+void swap(int* a, int* b) {
+    int temp = *a;
+    *a = *b;
+    *b = temp;
+}
+
 // Function to partition the array and return the index of the pivot
-int partition(int array[], int low, int high) {
-    // Choose the rightmost element as the pivot
-    int pivot = array[high];
+int partition(int array[], int begin, int end) {
+    int pivot = begin;
 
-    // Initialize the index of the smaller element
-    int smallerIndex = (low - 1);
+    int i = begin;
+    int j = end;
 
-    // Iterate through the elements from low to high-1
-    for (int currentIndex = low; currentIndex <= high - 1; currentIndex++) {
-        // If the current element is smaller than or equal to the pivot
-        if (array[currentIndex] <= pivot) {
-            // Swap array[smallerIndex + 1] and array[currentIndex]
-            smallerIndex++;
-            int temp = array[smallerIndex];
-            array[smallerIndex] = array[currentIndex];
-            array[currentIndex] = temp;
+    while (i < j) {
+        if (pivot < j && array[pivot] < array[j]) {
+            j--;
+        }
+
+        else if (pivot > i && array[pivot] > array[i]) {
+            i++;
+        }
+
+        else if (array[pivot] > array[j]) {
+            swap(&array[pivot], &array[j]);
+            pivot = j;
+        }
+
+        else if (array[pivot] < array[i]) {
+            swap(&array[pivot], &array[i]);
+            pivot = i;
         }
     }
 
-    // Swap array[smallerIndex + 1] and array[high] to place the pivot in its correct position
-    int temp = array[smallerIndex + 1];
-    array[smallerIndex + 1] = array[high];
-    array[high] = temp;
-
-    // Return the index of the pivot
-    return (smallerIndex + 1);
+    return pivot;
 }
 
 // Function to perform Quick Sort
