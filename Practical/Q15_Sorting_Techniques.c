@@ -5,14 +5,14 @@ insertion, merge, heap, quick, counting, radix, bucket. */
 
 // Function to display the main menu
 void displayMenu() {
-    printf("\n+----------------------------------------+\n");
+    printf("\n+---------------------------------------+\n");
     printf("|      Sorting Techniques Menu          |\n");
-    printf("+----------------------------------------+\n");
+    printf("+---------------------------------------+\n");
     printf("|1. Insertion Sort                      |\n");
     printf("|2. Merge Sort                          |\n");
     printf("|3. Quick Sort                          |\n");
     printf("|4. Exit                                |\n");
-    printf("+----------------------------------------+\n");
+    printf("+---------------------------------------+\n");
     printf("Enter your choice: ");
 }
 
