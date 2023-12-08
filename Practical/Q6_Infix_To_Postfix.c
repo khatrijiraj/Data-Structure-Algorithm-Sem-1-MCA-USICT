@@ -1,7 +1,7 @@
 #include <stdbool.h>
 #include <stdio.h>
 
-#define MAXSIZE 5
+#define MAXSIZE 10
 
 typedef struct {
     char items[MAXSIZE];
@@ -56,6 +56,38 @@ int precedence(char op) {
     return 0;
 }
 
+bool isValidInfix(char *infix) {
+    Stack ST;
+    initializeStack(&ST);
+
+    int i = 0;
+    while (infix[i] != '\0') {
+        char ch = infix[i];
+
+        if (isAlphanumeric(ch)) {
+        } else if (operator(ch)) {
+            if (i == 0) {
+                return false;
+            }
+            char prevChar = infix[i - 1];
+            if (prevChar == '(' || prevChar == ')' || operator(prevChar)) {
+                return false;
+            }
+        } else if (ch == '(') {
+            push(&ST, ch);
+        } else if (ch == ')') {
+            if (peek(&ST) != '(') {
+                return false;
+            }
+            pop(&ST);
+        } else {
+            return false;
+        }
+        i++;
+    }
+    return ST.TOS == -1;
+}
+
 void infixToPostfix(char *infix) {
     Stack ST;
     initializeStack(&ST);
@@ -95,38 +127,6 @@ void infixToPostfix(char *infix) {
 
     postfix[pIndex] = '\0';
     printf("Postfix expression: %s\n", postfix);
-}
-
-bool isValidInfix(char *infix) {
-    Stack ST;
-    initializeStack(&ST);
-
-    int i = 0;
-    while (infix[i] != '\0') {
-        char ch = infix[i];
-
-        if (isAlphanumeric(ch)) {
-        } else if (operator(ch)) {
-            if (i == 0) {
-                return false;
-            }
-            char prevChar = infix[i - 1];
-            if (prevChar == '(' || prevChar == ')' || operator(prevChar)) {
-                return false;
-            }
-        } else if (ch == '(') {
-            push(&ST, ch);
-        } else if (ch == ')') {
-            if (peek(&ST) != '(') {
-                return false;
-            }
-            pop(&ST);
-        } else {
-            return false;
-        }
-        i++;
-    }
-    return ST.TOS == -1;
 }
 
 int main() {

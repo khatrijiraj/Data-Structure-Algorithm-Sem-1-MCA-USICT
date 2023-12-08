@@ -1,7 +1,3 @@
-/* 2. Implement insertion (at the beginning, at the specified location, at the end)
- and deletion (at the beginning, at the specified location, at the end)
- on a single linked list and circular single linked list. */
-
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -209,17 +205,6 @@ Node* deleteNodeByValue(Node* head, int value) {
     return head;
 }
 
-// Function to count the number of nodes in a singly linked list
-int countNodes(Node* head) {
-    int count = 0;
-    Node* current = head;
-    while (current != NULL) {
-        count++;
-        current = current->next;
-    }
-    return count;
-}
-
 // Function to display a singly linked list
 void displayList(Node* head) {
     Node* current = head;
@@ -311,20 +296,6 @@ CircularNode* deleteNodeByValueCircular(CircularNode* head, int value) {
     return head;
 }
 
-// Function to count the number of nodes in a circular singly linked list
-int countCircularNodes(CircularNode* head) {
-    if (head == NULL) {
-        return 0;
-    }
-    int count = 1;  // Count the first node
-    CircularNode* current = head->next;
-    while (current != head) {
-        count++;
-        current = current->next;
-    }
-    return count;
-}
-
 void displayCircularList(CircularNode* head) {
     if (head == NULL) {
         printf("Circular Linked List is empty.\n");
@@ -337,46 +308,6 @@ void displayCircularList(CircularNode* head) {
         current = current->next;
     } while (current != head);
     printf("Initial\n");
-}
-
-// Function to reverse a singly linked list
-Node* reverseList(Node* head) {
-    Node* prev = NULL;
-    Node* current = head;
-    Node* next = NULL;
-
-    while (current != NULL) {
-        next = current->next;
-        current->next = prev;
-        prev = current;
-        current = next;
-    }
-
-    return prev;  // The new head of the reversed list
-}
-
-// Function to reverse a circular singly linked list
-CircularNode* reverseCircularList(CircularNode* head) {
-    if (head == NULL) {
-        return NULL;
-    }
-
-    CircularNode* current = head;
-    CircularNode* prev = NULL;
-    CircularNode* next = NULL;
-
-    do {
-        next = current->next;
-        current->next = prev;
-        prev = current;
-        current = next;
-    } while (current != head);
-
-    // Update the head to the last node
-    head->next = prev;
-    head = prev;  // The new head of the reversed circular list
-
-    return head;
 }
 
 // Function to free the memory of a singly linked list
@@ -406,7 +337,7 @@ void freeCircularList(CircularNode* head) {
 int main() {
     Node* head = NULL;
     CircularNode* circularHead = NULL;
-    int data, position, linkedListChoice, operationChoice, specificOperationChoice, targetData, nodeCount, circularNodeCount;
+    int data, linkedListChoice, operationChoice, specificOperationChoice, targetData;
 
     while (1) {
         printf("\n+-------------------------------------+\n");
@@ -431,10 +362,8 @@ int main() {
                         printf("\t+-------------------------------------+\n");
                         printf("\t|1. Insertion                         |\n");
                         printf("\t|2. Deletion                          |\n");
-                        printf("\t|3. Count Nodes                       |\n");
-                        printf("\t|4. Reverse                           |\n");
-                        printf("\t|5. Display                           |\n");
-                        printf("\t|6. Navigate to previous menu         |\n");
+                        printf("\t|3. Display                           |\n");
+                        printf("\t|4. Navigate to previous menu         |\n");
                         printf("\t+-------------------------------------+\n");
                         printf("\tEnter your choice: ");
                         scanf(" %d", &operationChoice);
@@ -473,8 +402,8 @@ int main() {
                                             printf("\t\tEnter the data to insert: ");
                                             scanf("%d", &data);
                                             printf("\t\tEnter the position to insert: ");
-                                            scanf("%d", &position);
-                                            head = insertNodeAtPosition(head, data, position);
+                                            scanf("%d", &targetData);
+                                            head = insertNodeAtPosition(head, data, targetData);
                                             displayList(head);
                                             break;
                                         case 4:
@@ -521,8 +450,8 @@ int main() {
                                             break;
                                         case 3:
                                             printf("\t\tEnter the position to delete: ");
-                                            scanf("%d", &position);
-                                            head = deleteNodeByPosition(head, position);
+                                            scanf("%d", &targetData);
+                                            head = deleteNodeByPosition(head, targetData);
                                             displayList(head);
                                             break;
                                         case 4:
@@ -543,27 +472,18 @@ int main() {
                                 }
                                 break;
                             case 3:
-                                nodeCount = countNodes(head);
-                                printf("\t\tNumber of nodes in the list: %d\n", nodeCount);
+                                displayList(head);
                                 break;
                             case 4:
-                                head = reverseList(head);
-                                displayList(head);
-                                break;
-                            case 5:
-                                displayList(head);
-                                break;
-                            case 6:
                                 break;
                             default:
                                 printf("\t\tInvalid choice. Please try again.\n");
                                 break;
                         }
-                        if (operationChoice == 6) {
+                        if (operationChoice == 4) {
                             break;  // Exit the inner while loop
                         }
                     }
-
                     break;
 
                 case 2:
@@ -573,10 +493,8 @@ int main() {
                         printf("\t+-------------------------------------+\n");
                         printf("\t|1. Insertion                         |\n");
                         printf("\t|2. Deletion                          |\n");
-                        printf("\t|3. Count Nodes                       |\n");
-                        printf("\t|4. Reverse                           |\n");
-                        printf("\t|5. Display                           |\n");
-                        printf("\t|6. Navigate to previous menu         |\n");
+                        printf("\t|3. Display                           |\n");
+                        printf("\t|4. Navigate to previous menu         |\n");
                         printf("\t+-------------------------------------+\n");
                         printf("\tEnter your choice: ");
                         scanf(" %d", &operationChoice);
@@ -601,14 +519,14 @@ int main() {
                                             scanf("%d", &data);
                                             circularHead = insertNodeAtStartCircular(circularHead, data);
                                             printf("\t\tNode with value %d inserted at the beginning.\n", data);
-                                            displayList(head);
+                                            displayCircularList(circularHead);
                                             break;
                                         case 2:
                                             printf("\t\tEnter the data to insert: ");
                                             scanf("%d", &data);
                                             circularHead = insertNodeAtEndCircular(circularHead, data);
                                             printf("\t\tNode with value %d inserted at the end.\n", data);
-                                            displayList(head);
+                                            displayCircularList(circularHead);
                                             break;
                                         case 3:
                                             printf("\t\tEnter the data to insert: ");
@@ -616,7 +534,7 @@ int main() {
                                             printf("\t\tEnter the value after which to insert: ");
                                             scanf("%d", &targetData);
                                             circularHead = insertNodeAfterCircular(circularHead, data, targetData);
-                                            displayList(head);
+                                            displayCircularList(circularHead);
                                             break;
                                         case 4:
                                             break;
@@ -645,7 +563,7 @@ int main() {
                                             printf("\t\tEnter the value to delete: ");
                                             scanf("%d", &data);
                                             circularHead = deleteNodeByValueCircular(circularHead, data);
-                                            displayList(head);
+                                            displayCircularList(circularHead);
                                             break;
                                         case 2:
                                             break;
@@ -659,27 +577,18 @@ int main() {
                                 }
                                 break;
                             case 3:
-                                circularNodeCount = countCircularNodes(circularHead);
-                                printf("\t\tNumber of nodes in the circular list: %d\n", circularNodeCount);
-                                break;
-                            case 4:
-                                circularHead = reverseCircularList(circularHead);
-                                displayList(head);
-                                break;
-                            case 5:
                                 displayCircularList(circularHead);
                                 break;
-                            case 6:
+                            case 4:
                                 break;
                             default:
                                 printf("\t\tInvalid choice. Please try again.\n");
                                 break;
                         }
-                        if (operationChoice == 6) {
+                        if (operationChoice == 4) {
                             break;  // Exit the inner while loop
                         }
                     }
-
                     break;
 
                 case 3:

@@ -1,5 +1,3 @@
-/* Implement  traversals  on  Binary  Search  Tree  (using  stacks)
-   -  Inorder, Preorder, Postorder) */
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -205,27 +203,13 @@ int displayMainMenu() {
     printf("\n+-------------------------------------+\n");
     printf("|      Main Menu                      |\n");
     printf("+-------------------------------------+\n");
-    printf("|1. Binary Search Tree (BST) Operations|\n");
-    printf("|2. Exit                              |\n");
-    printf("+-------------------------------------+\n");
-    printf("Enter your choice: ");
-    scanf("%d", &choice);
-    return choice;
-}
-
-// Function to display the BST menu and get user choice
-int displayBSTMenu() {
-    int choice;
-    printf("\n+-------------------------------------+\n");
-    printf("|     BST Operations Menu             |\n");
-    printf("+-------------------------------------+\n");
     printf("|1. Insert                            |\n");
     printf("|2. Delete                            |\n");
     printf("|3. Search                            |\n");
     printf("|4. Inorder Traversal                 |\n");
     printf("|5. Preorder Traversal                |\n");
     printf("|6. Postorder Traversal               |\n");
-    printf("|7. Back to Main Menu                 |\n");
+    printf("|7. Exit                              |\n");
     printf("+-------------------------------------+\n");
     printf("Enter your choice: ");
     scanf("%d", &choice);
@@ -235,75 +219,60 @@ int displayBSTMenu() {
 // Driver program to test the program
 int main() {
     struct Node* root = NULL;
-    int mainChoice, bstChoice, value;
+    int mainChoice, value;
 
     do {
         mainChoice = displayMainMenu();
 
         switch (mainChoice) {
             case 1:
-                do {
-                    bstChoice = displayBSTMenu();
-
-                    switch (bstChoice) {
-                        case 1:
-                            printf("Enter the value to insert into BST: ");
-                            scanf("%d", &value);
-                            root = insert(root, value);
-                            break;
-
-                        case 2:
-                            printf("Enter the value to delete from BST: ");
-                            scanf("%d", &value);
-                            root = deleteNode(root, value);
-                            break;
-
-                        case 3:
-                            printf("Enter the value to search in BST: ");
-                            scanf("%d", &value);
-                            if (search(root, value)) {
-                                printf("%d is present in the BST.\n", value);
-                            } else {
-                                printf("%d is not present in the BST.\n", value);
-                            }
-                            break;
-
-                        case 4:
-                            printf("Inorder Traversal: ");
-                            iterativeInorder(root);
-                            printf("\n");
-                            break;
-
-                        case 5:
-                            printf("Preorder Traversal: ");
-                            iterativePreorder(root);
-                            printf("\n");
-                            break;
-
-                        case 6:
-                            printf("Postorder Traversal: ");
-                            iterativePostorder(root);
-                            printf("\n");
-                            break;
-
-                        case 7:
-                            // Back to the main menu
-                            break;
-
-                        default:
-                            printf("Invalid choice! Please enter a valid option.\n");
-                    }
-                } while (bstChoice != 7);
+                printf("Enter the value to insert into BST: ");
+                scanf("%d", &value);
+                root = insert(root, value);
                 break;
 
             case 2:
+                printf("Enter the value to delete from BST: ");
+                scanf("%d", &value);
+                root = deleteNode(root, value);
+                break;
+
+            case 3:
+                printf("Enter the value to search in BST: ");
+                scanf("%d", &value);
+                if (search(root, value)) {
+                    printf("%d is present in the BST.\n", value);
+                } else {
+                    printf("%d is not present in the BST.\n", value);
+                }
+                break;
+
+            case 4:
+                printf("Inorder Traversal: ");
+                iterativeInorder(root);
+                printf("\n");
+                break;
+
+            case 5:
+                printf("Preorder Traversal: ");
+                iterativePreorder(root);
+                printf("\n");
+                break;
+
+            case 6:
+                printf("Postorder Traversal: ");
+                iterativePostorder(root);
+                printf("\n");
+                break;
+
+            case 7:
                 printf("Exiting the program. Goodbye!\n");
                 break;
 
             default:
                 printf("Invalid choice! Please enter a valid option.\n");
         }
-    } while (mainChoice != 2);
+    } while (mainChoice != 7);
 
     return 0;
 }

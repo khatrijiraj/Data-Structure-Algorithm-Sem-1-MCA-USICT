@@ -72,7 +72,7 @@ int main() {
 
     while (1) {
         printf("\n+-------------------------------------+\n");
-        printf("|        Choose Array Operation         |\n");
+        printf("|        Choose Array Operation       |\n");
         printf("+-------------------------------------+\n");
         printf("|1. Traverse Array                    |\n");
         printf("|2. Insert Element                    |\n");

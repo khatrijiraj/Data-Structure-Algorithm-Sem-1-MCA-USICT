@@ -331,12 +331,12 @@ int main() {
             case 1:
                 while (1) {
                     printf("\n+-------------------------------------+\n");
-                    printf("|      Doubly Linked List            |\n");
+                    printf("|      Doubly Linked List             |\n");
                     printf("+-------------------------------------+\n");
                     printf("|1. Insertion                         |\n");
                     printf("|2. Deletion                          |\n");
                     printf("|3. Display                           |\n");
-                    printf("|4. Back to Main Menu                |\n");
+                    printf("|4. Back to Main Menu                 |\n");
                     printf("+-------------------------------------+\n");
                     printf("Enter your choice: ");
                     scanf("%d", &choice);
@@ -346,12 +346,12 @@ int main() {
                             printf("Enter data to insert: ");
                             scanf("%d", &data);
                             printf("+-------------------------------------+\n");
-                            printf("|      Doubly Insertion Menu         |\n");
+                            printf("|      Doubly Insertion Menu          |\n");
                             printf("+-------------------------------------+\n");
-                            printf("|1. Insert at Beginning              |\n");
-                            printf("|2. Insert at Location               |\n");
-                            printf("|3. Insert at End                    |\n");
-                            printf("|4. Back to Doubly Linked List Menu  |\n");
+                            printf("|1. Insert at Beginning               |\n");
+                            printf("|2. Insert at Location                |\n");
+                            printf("|3. Insert at End                     |\n");
+                            printf("|4. Back to Doubly Linked List Menu   |\n");
                             printf("+-------------------------------------+\n");
                             printf("Enter your choice: ");
                             scanf("%d", &position);
@@ -374,12 +374,12 @@ int main() {
                             break;
                         case 2:
                             printf("+-------------------------------------+\n");
-                            printf("|      Doubly Deletion Menu          |\n");
+                            printf("|      Doubly Deletion Menu           |\n");
                             printf("+-------------------------------------+\n");
-                            printf("|1. Delete at Beginning              |\n");
-                            printf("|2. Delete at Location               |\n");
-                            printf("|3. Delete at End                    |\n");
-                            printf("|4. Back to Doubly Linked List Menu  |\n");
+                            printf("|1. Delete at Beginning               |\n");
+                            printf("|2. Delete at Location                |\n");
+                            printf("|3. Delete at End                     |\n");
+                            printf("|4. Back to Doubly Linked List Menu   |\n");
                             printf("+-------------------------------------+\n");
                             printf("Enter your choice: ");
                             scanf("%d", &position);
@@ -418,12 +418,12 @@ int main() {
             case 2:
                 while (1) {
                     printf("\n+-------------------------------------+\n");
-                    printf("| Circular Doubly Linked List        |\n");
+                    printf("| Circular Doubly Linked List         |\n");
                     printf("+-------------------------------------+\n");
                     printf("|1. Insertion                         |\n");
                     printf("|2. Deletion                          |\n");
                     printf("|3. Display                           |\n");
-                    printf("|4. Back to Main Menu                |\n");
+                    printf("|4. Back to Main Menu                 |\n");
                     printf("+-------------------------------------+\n");
                     printf("Enter your choice: ");
                     scanf("%d", &choice);
@@ -435,9 +435,9 @@ int main() {
                             printf("+-------------------------------------+\n");
                             printf("|      Circular Doubly Insertion Menu |\n");
                             printf("+-------------------------------------+\n");
-                            printf("|1. Insert at Beginning              |\n");
-                            printf("|2. Insert at Location               |\n");
-                            printf("|3. Insert at End                    |\n");
+                            printf("|1. Insert at Beginning               |\n");
+                            printf("|2. Insert at Location                |\n");
+                            printf("|3. Insert at End                     |\n");
                             printf("|4. Back to Circular Doubly Linked List Menu|\n");
                             printf("+-------------------------------------+\n");
                             printf("Enter your choice: ");
@@ -461,11 +461,11 @@ int main() {
                             break;
                         case 2:
                             printf("+-------------------------------------+\n");
-                            printf("| Circular Doubly Deletion Menu      |\n");
+                            printf("| Circular Doubly Deletion Menu       |\n");
                             printf("+-------------------------------------+\n");
-                            printf("|1. Delete at Beginning              |\n");
-                            printf("|2. Delete at Location               |\n");
-                            printf("|3. Delete at End                    |\n");
+                            printf("|1. Delete at Beginning               |\n");
+                            printf("|2. Delete at Location                |\n");
+                            printf("|3. Delete at End                     |\n");
                             printf("|4. Back to Circular Doubly Linked List Menu|\n");
                             printf("+-------------------------------------+\n");
                             printf("Enter your choice: ");

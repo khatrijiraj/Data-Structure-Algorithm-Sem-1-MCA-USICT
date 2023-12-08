@@ -1,151 +1,213 @@
-/* Implement graph traversal (DFS & BFS) */
-#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 
 #define MAX_VERTICES 100
 
-// Structure for a node in the adjacency list
-struct Node {
-    int data;
-    struct Node* next;
-};
+// Graph structure
+typedef struct {
+    int vertices;
+    int **adjMatrix;
+} Graph;
 
-// Structure for an adjacency list
-struct AdjList {
-    struct Node* head;
-};
+// Stack structure for DFS
+typedef struct {
+    int *data;
+    int top;
+    int capacity;
+} Stack;
 
-// Structure for a graph
-struct Graph {
-    int numVertices;
-    struct AdjList* array;
-};
+// Queue structure for BFS
+typedef struct {
+    int *data;
+    int front;
+    int rear;
+    int capacity;
+} Queue;
 
-// Function to create a new graph with a given number of vertices
-struct Graph* createGraph(int numVertices) {
-    struct Graph* graph = (struct Graph*)malloc(sizeof(struct Graph));
-    graph->numVertices = numVertices;
-    graph->array = (struct AdjList*)malloc(numVertices * sizeof(struct AdjList));
+// Function to initialize a stack
+Stack *createStack(int capacity) {
+    Stack *stack = (Stack *)malloc(sizeof(Stack));
+    stack->data = (int *)malloc(capacity * sizeof(int));
+    stack->top = -1;
+    stack->capacity = capacity;
+    return stack;
+}
 
-    for (int i = 0; i < numVertices; ++i) {
-        graph->array[i].head = NULL;
+// Function to check if the stack is empty
+int isEmpty(Stack *stack) {
+    return stack->top == -1;
+}
+
+// Function to push an element onto the stack
+void push(Stack *stack, int vertex) {
+    stack->data[++stack->top] = vertex;
+}
+
+// Function to pop an element from the stack
+int pop(Stack *stack) {
+    return stack->data[stack->top--];
+}
+
+// Function to initialize a queue
+Queue *createQueue(int capacity) {
+    Queue *queue = (Queue *)malloc(sizeof(Queue));
+    queue->data = (int *)malloc(capacity * sizeof(int));
+    queue->front = queue->rear = -1;
+    queue->capacity = capacity;
+    return queue;
+}
+
+// Function to check if the queue is empty
+int isQueueEmpty(Queue *queue) {
+    return queue->front == -1;
+}
+
+// Function to enqueue an element
+void enqueue(Queue *queue, int vertex) {
+    if (isQueueEmpty(queue)) {
+        queue->front = queue->rear = 0;
+    } else {
+        queue->rear++;
     }
+    queue->data[queue->rear] = vertex;
+}
 
+// Function to dequeue an element
+int dequeue(Queue *queue) {
+    int vertex = queue->data[queue->front];
+    if (queue->front == queue->rear) {
+        queue->front = queue->rear = -1;
+    } else {
+        queue->front++;
+    }
+    return vertex;
+}
+
+// Function to create a graph with the given number of vertices
+Graph *createGraph(int vertices) {
+    int i, j;
+    Graph *graph = (Graph *)malloc(sizeof(Graph));
+    graph->vertices = vertices;
+    graph->adjMatrix = (int **)malloc(vertices * sizeof(int *));
+    for (i = 0; i < vertices; i++) {
+        graph->adjMatrix[i] = (int *)malloc(vertices * sizeof(int));
+        for (j = 0; j < vertices; j++) {
+            graph->adjMatrix[i][j] = 0;
+        }
+    }
     return graph;
 }
 
-// Function to add an edge to an undirected graph
-void addEdge(struct Graph* graph, int src, int dest) {
-    // Add an edge from src to dest
-    struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
-    newNode->data = dest;
-    newNode->next = graph->array[src].head;
-    graph->array[src].head = newNode;
-
-    // Since the graph is undirected, add an edge from dest to src as well
-    newNode = (struct Node*)malloc(sizeof(struct Node));
-    newNode->data = src;
-    newNode->next = graph->array[dest].head;
-    graph->array[dest].head = newNode;
+// Function to add an edge to the graph
+void addEdge(Graph *graph, int start, int end) {
+    graph->adjMatrix[start][end] = 1;
+    graph->adjMatrix[end][start] = 1;
 }
+// Function for Depth-First Search (DFS)
+void DFS(Graph *graph, int start) {
+    Stack *stack = createStack(graph->vertices);
+    int visited[MAX_VERTICES] = {0};
 
-// Function to perform Depth-First Search (DFS) traversal
-void DFS(struct Graph* graph, int vertex, bool visited[]) {
-    visited[vertex] = true;
-    printf("%d ", vertex);
+    push(stack, start);
+    visited[start] = 1;
 
-    struct Node* adjNode = graph->array[vertex].head;
-    while (adjNode != NULL) {
-        if (!visited[adjNode->data]) {
-            DFS(graph, adjNode->data, visited);
-        }
-        adjNode = adjNode->next;
-    }
-}
-
-// Function to perform Breadth-First Search (BFS) traversal
-void BFS(struct Graph* graph, int start) {
-    bool visited[MAX_VERTICES] = {false};
-    int queue[MAX_VERTICES];
-    int front = -1, rear = -1;
-
-    visited[start] = true;
-    queue[++rear] = start;
-
-    while (front != rear) {
-        int currentVertex = queue[++front];
+    while (!isEmpty(stack)) {
+        int currentVertex = pop(stack);
         printf("%d ", currentVertex);
 
-        struct Node* adjNode = graph->array[currentVertex].head;
-        while (adjNode != NULL) {
-            int adjVertex = adjNode->data;
-            if (!visited[adjVertex]) {
-                visited[adjVertex] = true;
-                queue[++rear] = adjVertex;
+        for (int i = 0; i < graph->vertices; i++) {
+            if (graph->adjMatrix[currentVertex][i] == 1 && !visited[i]) {
+                push(stack, i);
+                visited[i] = 1;
             }
-            adjNode = adjNode->next;
         }
     }
+
+    free(stack);
 }
 
-// Function to display the main menu and get user choice
-int displayMainMenu() {
-    int choice;
+// Function for Breadth-First Search (BFS)
+void BFS(Graph *graph, int start) {
+    Queue *queue = createQueue(graph->vertices);
+    int visited[MAX_VERTICES] = {0};
+
+    enqueue(queue, start);
+    visited[start] = 1;
+
+    while (!isQueueEmpty(queue)) {
+        int currentVertex = dequeue(queue);
+        printf("%d ", currentVertex);
+
+        for (int i = 0; i < graph->vertices; i++) {
+            if (graph->adjMatrix[currentVertex][i] == 1 && !visited[i]) {
+                enqueue(queue, i);
+                visited[i] = 1;
+            }
+        }
+    }
+
+    free(queue);
+}
+
+void displayMenu() {
     printf("\n+-------------------------------------+\n");
     printf("|      Graph Operations Menu          |\n");
     printf("+-------------------------------------+\n");
-    printf("|1. Add Edge                          |\n");
-    printf("|2. Depth-First Search (DFS)          |\n");
-    printf("|3. Breadth-First Search (BFS)        |\n");
-    printf("|4. Exit                              |\n");
+    printf("|1. Depth-First Search (DFS)          |\n");
+    printf("|2. Breadth-First Search (BFS)        |\n");
+    printf("|3. Exit                              |\n");
     printf("+-------------------------------------+\n");
-    printf("Enter your choice: ");
-    scanf("%d", &choice);
-    return choice;
 }
 
-// Driver program to test graph operations
 int main() {
-    int numVertices, numEdges, i;
+    int vertices, edges, i;
+    printf("Enter the number of vertices: ");
+    scanf("%d", &vertices);
 
-    printf("Enter the number of vertices in the graph: ");
-    scanf("%d", &numVertices);
+    Graph *graph = createGraph(vertices);
 
-    struct Graph* graph = createGraph(numVertices);
+    printf("Enter the number of edges: ");
+    scanf("%d", &edges);
+
+    printf("Enter the edges (format: start end):\n");
+    for (i = 0; i < edges; i++) {
+        int start, end;
+        scanf("%d %d", &start, &end);
+        addEdge(graph, start, end);
+    }
+
     int choice;
     do {
-        choice = displayMainMenu();
+        displayMenu();
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
+
         switch (choice) {
             case 1:
-                printf("Enter the source and destination vertices for the edge (space-separated): ");
-                int src, dest;
-                scanf("%d %d", &src, &dest);
-                addEdge(graph, src, dest);
+                printf("Enter the starting vertex for DFS: ");
+                scanf("%d", &vertices);
+                printf("DFS Traversal: ");
+                DFS(graph, vertices);
+                printf("\n");
                 break;
 
             case 2:
-                printf("Depth-First Search (DFS) traversal starting from vertex 0: ");
-                bool visitedDFS[MAX_VERTICES] = {false};
-                DFS(graph, 0, visitedDFS);
+                printf("Enter the starting vertex for BFS: ");
+                scanf("%d", &vertices);
+                printf("BFS Traversal: ");
+                BFS(graph, vertices);
                 printf("\n");
                 break;
 
             case 3:
-                printf("Breadth-First Search (BFS) traversal starting from vertex 0: ");
-                BFS(graph, 0);
-                printf("\n");
-                break;
-
-            case 4:
-                printf("Exiting the program. Goodbye!\n");
+                printf("Exiting program...\n");
                 break;
 
             default:
-                printf("Invalid choice! Please enter a valid option.\n");
+                printf("Invalid choice. Please enter a valid option.\n");
         }
 
-    } while (choice != 4);
+    } while (choice != 3);
 
     return 0;
 }

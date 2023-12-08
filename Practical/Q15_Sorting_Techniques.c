@@ -147,7 +147,6 @@ void quickSort(int array[], int low, int high) {
 
 // Driver program to test sorting techniques
 int main() {
-    printf("Ahh!!! Shit here we go again!\n");
     int numElements, i;
     // Prompt the user to enter the number of elements in the array
     printf("Enter the number of elements in the array: ");

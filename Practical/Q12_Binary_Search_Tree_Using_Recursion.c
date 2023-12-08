@@ -1,5 +1,3 @@
-/* Implement operations on Binary Search Tree (Insertion, Deletion, Search,
-Traversals (using recursion)- Inorder, Preorder, Postorder). */
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -108,20 +106,6 @@ void postorderTraversal(struct Node* root) {
     }
 }
 
-// Function to display the menu and get user choice
-int displayMenu() {
-    int choice;
-    printf("\n+-------------------------------------+\n");
-    printf("|  Choose Data Structure to Operate   |\n");
-    printf("+-------------------------------------+\n");
-    printf("|1. Binary Search Tree (BST)          |\n");
-    printf("|2. Exit                              |\n");
-    printf("+-------------------------------------+\n");
-    printf("Enter your choice: ");
-    scanf("%d", &choice);
-    return choice;
-}
-
 // Function to operate on Binary Search Tree
 void operateOnBST() {
     struct Node* root = NULL;
@@ -129,7 +113,7 @@ void operateOnBST() {
 
     do {
         printf("\n+-------------------------------------+\n");
-        printf("|    Operations on Binary Search Tree  |\n");
+        printf("|    Operations on Binary Search Tree |\n");
         printf("+-------------------------------------+\n");
         printf("|1. Insert                            |\n");
         printf("|2. Delete                            |\n");
@@ -184,24 +168,6 @@ void operateOnBST() {
 
 // Driver program
 int main() {
-    int mainChoice;
-
-    do {
-        mainChoice = displayMenu();
-
-        switch (mainChoice) {
-            case 1:
-                operateOnBST();
-                break;
-
-            case 2:
-                printf("Exiting the program. Goodbye!\n");
-                break;
-
-            default:
-                printf("Invalid choice! Please enter a valid option.\n");
-        }
-    } while (mainChoice != 2);
-
+    operateOnBST();
     return 0;
 }
