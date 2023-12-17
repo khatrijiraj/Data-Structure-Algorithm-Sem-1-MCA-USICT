@@ -93,32 +93,33 @@ void iterativePreorder(struct Node* root) {
     }
 }
 
-// Function to perform iterative postorder traversal
 void iterativePostorder(struct Node* root) {
     if (root == NULL) {
         return;
     }
 
-    struct StackNode* stack1 = NULL;
-    struct StackNode* stack2 = NULL;
-    push(&stack1, root);
+    struct StackNode* stack = NULL;
+    struct Node* lastVisited = NULL;
 
-    while (!isEmpty(stack1)) {
-        struct Node* current = pop(&stack1);
-        push(&stack2, current);
-
-        if (current->left) {
-            push(&stack1, current->left);
+    do {
+        while (root != NULL) {
+            push(&stack, root);
+            root = root->left;
         }
-        if (current->right) {
-            push(&stack1, current->right);
-        }
-    }
 
-    while (!isEmpty(stack2)) {
-        struct Node* current = pop(&stack2);
-        printf("%d ", current->data);
-    }
+        while (root == NULL && !isEmpty(stack)) {
+            struct Node* top = stack->data;
+
+            if (top->right == NULL || top->right == lastVisited) {
+                // Process the node when there is no right child or right child is already visited
+                printf("%d ", top->data);
+                lastVisited = pop(&stack);
+            } else {
+                // Move to the right child
+                root = top->right;
+            }
+        }
+    } while (!isEmpty(stack));
 }
 
 // Function to insert a value into the BST
